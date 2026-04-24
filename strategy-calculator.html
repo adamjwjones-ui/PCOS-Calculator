@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fat Loss Strategy Calculator — The Nutrition Vault</title>
+<meta name="description" content="Find your perfect fat loss strategy — matched from 13 evidence-based approaches based on your lifestyle, hunger patterns and history. Free, no agenda.">
+<meta property="og:title" content="Fat Loss Strategy Calculator — The Nutrition Vault">
+<meta property="og:description" content="13 evidence-based fat loss strategies ranked for how you actually live. Free tool, no supplements to sell.">
+<meta property="og:url" content="https://thenutritonvault.github.io/PCOS-Calculator/strategy-calculator.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fat Loss Strategy Calculator — The Nutrition Vault">
+<meta name="twitter:description" content="Find your perfect fat loss strategy from 13 evidence-based approaches. Free.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23c8634a'/><text y='.9em' font-size='60' x='18'>🔒</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--cream:#faf7f2;--warm-white:#fff9f4;--terracotta:#c8634a;--terracotta-pale:#f5e4df;--sage:#6b8c6e;--sage-pale:#e8f0e9;--gold:#c4996a;--gold-pale:#fef3e2;--text-dark:#2c2118;--text-mid:#5c4a3a;--text-light:#8c7a6a;--border:#e8ddd4;}
+body{font-family:'DM Sans','Helvetica Neue',sans-serif;background:var(--cream);color:var(--text-dark);min-height:100vh;}
+body::before{content:'';position:fixed;top:-10vw;right:-10vw;width:50vw;height:50vw;background:radial-gradient(circle,rgba(200,99,74,0.07) 0%,transparent 70%);pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;bottom:-10vw;left:-10vw;width:40vw;height:40vw;background:radial-gradient(circle,rgba(107,140,110,0.07) 0%,transparent 70%);pointer-events:none;z-index:0;}
+.nav{display:flex;align-items:center;justify-content:space-between;max-width:780px;margin:0 auto;padding:20px 24px 0;position:relative;z-index:1;}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-icon{width:34px;height:34px;background:var(--terracotta);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.nav-name{display:flex;flex-direction:column;line-height:1;}
+.nav-the{font-size:8px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-light);}
+.nav-title{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:600;color:var(--text-dark);}
+.nav-title span{font-style:italic;color:var(--terracotta);font-weight:400;}
+.nav-links{display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+.nav-links a{font-size:13px;font-weight:500;color:var(--text-mid);text-decoration:none;white-space:nowrap;}
+.nav-links a:hover{color:var(--terracotta);}
+.nav-links a.active{color:var(--terracotta);}
+@media(max-width:600px){.nav-links a:not(.active){display:none;}.nav-links{gap:8px;}}
+.container{max-width:780px;margin:0 auto;padding:40px 24px 80px;position:relative;z-index:1;}
+.progress-wrap{margin-bottom:40px;}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:8px;}
+.progress-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--terracotta);border-radius:2px;transition:width 0.4s ease;width:0%;}
+.section-header{margin-bottom:32px;animation:fadeUp 0.5s ease both;}
+.section-eyebrow{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--terracotta);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.section-eyebrow::before{content:'';display:block;width:20px;height:1.5px;background:var(--terracotta);}
+.section-header h1,.section-header h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(26px,4vw,36px);font-weight:600;line-height:1.2;color:var(--text-dark);margin-bottom:12px;}
+.section-header h1 em,.section-header h2 em{font-style:italic;color:var(--terracotta);}
+.section-header p{font-size:15px;color:var(--text-mid);line-height:1.65;font-weight:300;}
+.card{background:var(--warm-white);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:20px;box-shadow:0 2px 20px rgba(44,33,24,0.05);animation:fadeUp 0.5s ease both;}
+@media(max-width:520px){.card{padding:22px;}}
+.card-label{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:18px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:520px){.form-grid{grid-template-columns:1fr;}}
+.form-group{display:flex;flex-direction:column;gap:7px;}
+.form-group label{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-light);}
+input[type="number"],select{height:48px;border:1.5px solid var(--border);border-radius:10px;padding:0 14px;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text-dark);background:var(--cream);outline:none;transition:border-color 0.2s,box-shadow 0.2s;appearance:none;}
+input[type="number"]:focus,select:focus{border-color:var(--terracotta);box-shadow:0 0 0 3px rgba(200,99,74,0.1);}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238c7a6a' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;}
+.question{margin-bottom:28px;}
+.question-text{font-size:15px;font-weight:500;color:var(--text-dark);margin-bottom:6px;line-height:1.5;}
+.question-sub{font-size:13px;color:var(--text-light);font-weight:300;margin-bottom:12px;}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.options-grid.three{grid-template-columns:1fr 1fr 1fr;}
+@media(max-width:520px){.options-grid,.options-grid.three{grid-template-columns:1fr 1fr;}}
+@media(max-width:360px){.options-grid,.options-grid.three{grid-template-columns:1fr;}}
+.opt input[type="radio"]{display:none;}
+.opt label{display:flex;align-items:flex-start;gap:10px;padding:13px 16px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.2s;background:var(--cream);font-size:13.5px;color:var(--text-mid);line-height:1.4;font-weight:400;user-select:none;}
+.opt label:hover{border-color:var(--terracotta-pale);background:var(--warm-white);}
+.opt input:checked+label{border-color:var(--terracotta);background:var(--terracotta-pale);color:var(--text-dark);font-weight:500;box-shadow:0 2px 12px rgba(200,99,74,0.15);}
+.opt-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.opt-text strong{display:block;margin-bottom:2px;font-size:14px;}
+.opt-text span{font-size:12px;color:var(--text-light);font-weight:300;}
+.opt input:checked+label .opt-text span{color:var(--text-mid);}
+.btn-primary{width:100%;height:54px;background:var(--terracotta);color:white;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;letter-spacing:0.04em;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s,background 0.2s;box-shadow:0 4px 20px rgba(200,99,74,0.3);margin-top:8px;}
+.btn-primary:hover{background:#b5573f;transform:translateY(-1px);box-shadow:0 6px 24px rgba(200,99,74,0.4);}
+.btn-primary:active{transform:translateY(0);}
+.btn-secondary{background:none;border:1.5px solid var(--border);color:var(--text-mid);height:44px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;padding:0 20px;transition:all 0.2s;margin-top:12px;display:inline-flex;align-items:center;gap:6px;}
+.btn-secondary:hover{border-color:var(--terracotta);color:var(--terracotta);}
+.tdee-hero{background:linear-gradient(135deg,var(--terracotta) 0%,#b85540 100%);border-radius:16px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;color:white;margin-bottom:20px;position:relative;overflow:hidden;}
+.tdee-hero::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.08);}
+.tdee-label{font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;opacity:0.8;margin-bottom:6px;}
+.tdee-number{font-family:'Playfair Display',Georgia,serif;font-size:52px;font-weight:600;line-height:1;}
+.tdee-unit{font-size:13px;opacity:0.7;margin-top:4px;}
+.tdee-right{text-align:right;position:relative;z-index:1;}
+.tdee-bmi{font-size:26px;font-weight:600;font-family:'Playfair Display',Georgia,serif;}
+.strategy-card{border-radius:16px;padding:28px;margin-bottom:16px;border:2px solid transparent;position:relative;overflow:hidden;animation:fadeUp 0.5s ease both;}
+.strategy-card.rank-1{background:linear-gradient(135deg,#fef8f6 0%,#fdf0eb 100%);border-color:var(--terracotta);}
+.strategy-card.rank-2{background:var(--warm-white);border-color:var(--gold);}
+.strategy-card.rank-3{background:var(--sage-pale);border-color:var(--sage);}
+.rank-badge{position:absolute;top:20px;right:20px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;}
+.rank-1 .rank-badge{background:var(--terracotta);color:white;}
+.rank-2 .rank-badge{background:var(--gold);color:white;}
+.rank-3 .rank-badge{background:var(--sage);color:white;}
+.strategy-name{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:600;color:var(--text-dark);margin-bottom:4px;}
+.strategy-tag{display:inline-block;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:12px;}
+.rank-1 .strategy-tag{background:var(--terracotta-pale);color:var(--terracotta);}
+.rank-2 .strategy-tag{background:var(--gold-pale);color:var(--gold);}
+.rank-3 .strategy-tag{background:var(--sage-pale);color:var(--sage);border:1px solid rgba(107,140,110,0.2);}
+.caution-badge{display:inline-flex;align-items:center;gap:6px;background:#fff8e6;border:1px solid #f0d080;border-radius:8px;padding:6px 12px;font-size:12px;color:#8a6a10;margin-bottom:12px;font-weight:400;line-height:1.4;}
+.strategy-desc{font-size:14px;color:var(--text-mid);line-height:1.65;font-weight:300;margin-bottom:18px;}
+.calorie-schedule{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:16px;}
+.sched-block{background:rgba(255,255,255,0.7);border-radius:10px;padding:12px 14px;text-align:center;}
+.sched-period{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-light);margin-bottom:4px;}
+.sched-cals{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:600;color:var(--text-dark);}
+.sched-label{font-size:11px;color:var(--text-light);font-weight:300;margin-top:2px;}
+.why-works{font-size:13px;color:var(--text-mid);font-weight:300;line-height:1.6;padding-top:14px;border-top:1px solid rgba(0,0,0,0.06);}
+.why-works strong{font-weight:500;color:var(--text-dark);}
+.match-bar-wrap{margin-bottom:14px;}
+.match-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text-light);margin-bottom:6px;}
+.match-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+.match-fill{height:100%;border-radius:3px;transition:width 0.8s ease 0.3s;width:0%;}
+.rank-1 .match-fill{background:var(--terracotta);}
+.rank-2 .match-fill{background:var(--gold);}
+.rank-3 .match-fill{background:var(--sage);}
+.tip-row{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--text-mid);line-height:1.6;font-weight:300;}
+.tip-row:last-child{border-bottom:none;}
+.section{display:none;}
+.section.active{display:block;}
+.disclaimer{text-align:center;font-size:12px;color:var(--text-light);line-height:1.6;font-style:italic;margin-top:32px;padding:0 16px;font-weight:300;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-icon">🔒</div>
+    <div class="nav-name">
+      <span class="nav-the">The</span>
+      <span class="nav-title">Nutrition <span>Vault</span></span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="pcos-book.html">Free PCOS Book</a>
+    <a href="calculator.html">PCOS Calculator</a>
+    <a href="strategy-calculator.html" class="active">Fat Loss Strategy</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="progress-text">Step 1 of 3 — Your stats</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section active" id="section-1">
+    <div class="section-header">
+      <div class="section-eyebrow">Fat Loss Strategy Calculator</div>
+      <h1>Find your <em>perfect</em><br>fat loss strategy</h1>
+      <p>Answer questions about your body, lifestyle and history. We'll match you against 13 evidence-based strategies and rank the top 3 for how you actually live — not how you wish you did.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Step 1 — Your stats</div>
+      <div class="form-grid">
+        <div class="form-group"><label>Age</label><input type="number" id="age" placeholder="e.g. 30" min="16" max="80"></div>
+        <div class="form-group"><label>Sex</label><select id="sex"><option value="f">Female</option><option value="m">Male</option></select></div>
+        <div class="form-group"><label>Weight unit</label><select id="weight-unit" onchange="toggleWeight()"><option value="kg">Kilograms (kg)</option><option value="lbs">Pounds (lbs)</option><option value="st">Stone & lbs</option></select></div>
+        <div class="form-group" id="w-kg"><label>Weight (kg)</label><input type="number" id="weight-kg" placeholder="e.g. 75" min="40" max="250"></div>
+        <div class="form-group" id="w-lbs" style="display:none"><label>Weight (lbs)</label><input type="number" id="weight-lbs" placeholder="e.g. 165"></div>
+        <div class="form-group" id="w-st" style="display:none"><label>Stone</label><input type="number" id="weight-st" placeholder="e.g. 11"></div>
+        <div class="form-group" id="w-stlbs" style="display:none"><label>Pounds</label><input type="number" id="weight-stlbs" placeholder="e.g. 7" min="0" max="13"></div>
+        <div class="form-group"><label>Height unit</label><select id="height-unit" onchange="toggleHeight()"><option value="cm">Centimetres</option><option value="ft">Feet & inches</option></select></div>
+        <div class="form-group" id="h-cm"><label>Height (cm)</label><input type="number" id="height-cm" placeholder="e.g. 168" min="140" max="220"></div>
+        <div class="form-group" id="h-ft" style="display:none"><label>Feet</label><input type="number" id="height-ft" placeholder="e.g. 5" min="4" max="7"></div>
+        <div class="form-group" id="h-in" style="display:none"><label>Inches</label><input type="number" id="height-in" placeholder="e.g. 6" min="0" max="11"></div>
+      </div>
+      <div style="margin-top:20px;">
+        <div class="card-label" style="margin-bottom:14px;">How active are you?</div>
+        <div class="options-grid">
+          <div class="opt"><input type="radio" name="activity" id="a1" value="1.2"><label for="a1"><span class="opt-icon">🪑</span><span class="opt-text"><strong>Sedentary</strong><span>Desk job, little movement</span></span></label></div>
+          <div class="opt"><input type="radio" name="activity" id="a2" value="1.375" checked><label for="a2"><span class="opt-icon">🚶</span><span class="opt-text"><strong>Lightly active</strong><span>1–3 workouts/week</span></span></label></div>
+          <div class="opt"><input type="radio" name="activity" id="a3" value="1.55"><label for="a3"><span class="opt-icon">🏃</span><span class="opt-text"><strong>Moderately active</strong><span>3–5 workouts/week</span></span></label></div>
+          <div class="opt"><input type="radio" name="activity" id="a4" value="1.725"><label for="a4"><span class="opt-icon">💪</span><span class="opt-text"><strong>Very active</strong><span>Hard training 6–7 days</span></span></label></div>
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <div class="card-label" style="margin-bottom:14px;">How much do you want to lose?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="goal-amount" id="g1" value="small"><label for="g1"><span class="opt-text"><strong>A little</strong><span>Under 10kg / 1.5st</span></span></label></div>
+          <div class="opt"><input type="radio" name="goal-amount" id="g2" value="moderate" checked><label for="g2"><span class="opt-text"><strong>Moderate</strong><span>10–25kg / 1.5–4st</span></span></label></div>
+          <div class="opt"><input type="radio" name="goal-amount" id="g3" value="significant"><label for="g3"><span class="opt-text"><strong>Significant</strong><span>25kg+ / 4st+</span></span></label></div>
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <div class="card-label" style="margin-bottom:14px;">Do you currently lift weights?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="trains" id="tr1" value="yes"><label for="tr1"><span class="opt-text"><strong>Yes, regularly</strong><span>3+ sessions/week</span></span></label></div>
+          <div class="opt"><input type="radio" name="trains" id="tr2" value="sometimes" checked><label for="tr2"><span class="opt-text"><strong>Sometimes</strong><span>1–2 sessions/week</span></span></label></div>
+          <div class="opt"><input type="radio" name="trains" id="tr3" value="no"><label for="tr3"><span class="opt-text"><strong>Not really</strong><span>Mainly cardio or none</span></span></label></div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="goToSection(2)" style="margin-top:24px;">Next: Your lifestyle →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section" id="section-2">
+    <div class="section-header">
+      <div class="section-eyebrow">Fat Loss Strategy Calculator</div>
+      <h2>Tell us how <em>you actually live</em></h2>
+      <p>Be honest — the more accurate your answers, the better the match. We're scoring you against 13 strategies in real time.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Hunger & fasting tolerance</div>
+      <div class="question">
+        <div class="question-text">When do you struggle most with hunger?</div>
+        <div class="options-grid">
+          <div class="opt"><input type="radio" name="hunger-time" id="ht1" value="morning"><label for="ht1"><span class="opt-icon">🌅</span><span class="opt-text"><strong>Morning</strong><span>Hungry before 10am</span></span></label></div>
+          <div class="opt"><input type="radio" name="hunger-time" id="ht2" value="afternoon" checked><label for="ht2"><span class="opt-icon">☀️</span><span class="opt-text"><strong>Afternoon</strong><span>The 3pm crash</span></span></label></div>
+          <div class="opt"><input type="radio" name="hunger-time" id="ht3" value="evening"><label for="ht3"><span class="opt-icon">🌙</span><span class="opt-text"><strong>Evening</strong><span>After dinner onwards</span></span></label></div>
+          <div class="opt"><input type="radio" name="hunger-time" id="ht4" value="all-day"><label for="ht4"><span class="opt-icon">⏰</span><span class="opt-text"><strong>All day</strong><span>Constant background hunger</span></span></label></div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-text">How intense are your cravings when dieting?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="cravings" id="cr1" value="mild"><label for="cr1"><span class="opt-text"><strong>Mild</strong><span>Easy to ignore</span></span></label></div>
+          <div class="opt"><input type="radio" name="cravings" id="cr2" value="moderate" checked><label for="cr2"><span class="opt-text"><strong>Moderate</strong><span>Distracting but manageable</span></span></label></div>
+          <div class="opt"><input type="radio" name="cravings" id="cr3" value="intense"><label for="cr3"><span class="opt-text"><strong>Intense</strong><span>Very hard to resist</span></span></label></div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-text">Are you naturally hungry in the morning?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="breakfast" id="bf1" value="early"><label for="bf1"><span class="opt-text"><strong>Yes, always</strong><span>Eat within 1hr of waking</span></span></label></div>
+          <div class="opt"><input type="radio" name="breakfast" id="bf2" value="skip" checked><label for="bf2"><span class="opt-text"><strong>Not really</strong><span>Can easily skip breakfast</span></span></label></div>
+          <div class="opt"><input type="radio" name="breakfast" id="bf3" value="late"><label for="bf3"><span class="opt-text"><strong>Not at all</strong><span>First meal midday or later</span></span></label></div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-text">Could you comfortably go a full day without eating if you had to?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="fast-tolerance" id="ft1" value="yes"><label for="ft1"><span class="opt-text"><strong>Yes</strong><span>Done it, felt fine</span></span></label></div>
+          <div class="opt"><input type="radio" name="fast-tolerance" id="ft2" value="maybe" checked><label for="ft2"><span class="opt-text"><strong>Maybe</strong><span>Never tried, might manage</span></span></label></div>
+          <div class="opt"><input type="radio" name="fast-tolerance" id="ft3" value="no"><label for="ft3"><span class="opt-text"><strong>No</strong><span>Get very irritable or shaky</span></span></label></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Energy, sleep & dieting history</div>
+      <div class="question">
+        <div class="question-text">How are your energy levels generally?</div>
+        <div class="options-grid">
+          <div class="opt"><input type="radio" name="energy" id="en1" value="good"><label for="en1"><span class="opt-icon">⚡</span><span class="opt-text"><strong>Good</strong><span>Consistent through the day</span></span></label></div>
+          <div class="opt"><input type="radio" name="energy" id="en2" value="crashes" checked><label for="en2"><span class="opt-icon">📉</span><span class="opt-text"><strong>Crashes</strong><span>High then suddenly low</span></span></label></div>
+          <div class="opt"><input type="radio" name="energy" id="en3" value="low"><label for="en3"><span class="opt-icon">😴</span><span class="opt-text"><strong>Generally low</strong><span>Tired most of the time</span></span></label></div>
+          <div class="opt"><input type="radio" name="energy" id="en4" value="variable"><label for="en4"><span class="opt-icon">〰️</span><span class="opt-text"><strong>Variable</strong><span>Depends on the day</span></span></label></div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-text">How many hours of sleep do you typically get?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="sleep" id="sl1" value="poor"><label for="sl1"><span class="opt-text"><strong>Under 6hrs</strong><span>Chronically short</span></span></label></div>
+          <div class="opt"><input type="radio" name="sleep" id="sl2" value="ok" checked><label for="sl2"><span class="opt-text"><strong>6–7hrs</strong><span>Manageable</span></span></label></div>
+          <div class="opt"><input type="radio" name="sleep" id="sl3" value="good"><label for="sl3"><span class="opt-text"><strong>7–9hrs</strong><span>Well rested</span></span></label></div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-text">Have you been dieting for a long time with slow or no results?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="plateau" id="pl1" value="yes"><label for="pl1"><span class="opt-text"><strong>Yes</strong><span>Months/years of restriction</span></span></label></div>
+          <div class="opt"><input type="radio" name="plateau" id="pl2" value="some" checked><label for="pl2"><span class="opt-text"><strong>Somewhat</strong><span>A few months, slow progress</span></span></label></div>
+          <div class="opt"><input type="radio" name="plateau" id="pl3" value="no"><label for="pl3"><span class="opt-text"><strong>No</strong><span>Fresh start</span></span></label></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Social life & weekends</div>
+      <div class="question">
+        <div class="question-text">How active is your social life around food and drink?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="social" id="so1" value="low"><label for="so1"><span class="opt-text"><strong>Low</strong><span>Rarely eat out or drink</span></span></label></div>
+          <div class="opt"><input type="radio" name="social" id="so2" value="moderate" checked><label for="so2"><span class="opt-text"><strong>Moderate</strong><span>Eat out most weekends</span></span></label></div>
+          <div class="opt"><input type="radio" name="social" id="so3" value="high"><label for="so3"><span class="opt-text"><strong>High</strong><span>Regular meals out & drinks</span></span></label></div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-text">Do weekends undo your weekday progress?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="weekends" id="we1" value="no"><label for="we1"><span class="opt-text"><strong>Rarely</strong><span>Consistent 7 days</span></span></label></div>
+          <div class="opt"><input type="radio" name="weekends" id="we2" value="sometimes" checked><label for="we2"><span class="opt-text"><strong>Sometimes</strong><span>One day goes off plan</span></span></label></div>
+          <div class="opt"><input type="radio" name="weekends" id="we3" value="yes"><label for="we3"><span class="opt-text"><strong>Often</strong><span>Fri–Sun is a write-off</span></span></label></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Diet psychology</div>
+      <div class="question">
+        <div class="question-text">Why have diets failed for you in the past?</div>
+        <div class="question-sub">Pick the one that resonates most</div>
+        <div class="options-grid">
+          <div class="opt"><input type="radio" name="fail-reason" id="fr1" value="hunger"><label for="fr1"><span class="opt-icon">😤</span><span class="opt-text"><strong>Too hungry</strong><span>Restriction felt unsustainable</span></span></label></div>
+          <div class="opt"><input type="radio" name="fail-reason" id="fr2" value="social" checked><label for="fr2"><span class="opt-icon">🥂</span><span class="opt-text"><strong>Social situations</strong><span>Hard to stick to around others</span></span></label></div>
+          <div class="opt"><input type="radio" name="fail-reason" id="fr3" value="boredom"><label for="fr3"><span class="opt-icon">😑</span><span class="opt-text"><strong>Boredom & monotony</strong><span>Same foods got old fast</span></span></label></div>
+          <div class="opt"><input type="radio" name="fail-reason" id="fr4" value="all-or-nothing"><label for="fr4"><span class="opt-icon">💥</span><span class="opt-text"><strong>All-or-nothing</strong><span>One bad day = gave up</span></span></label></div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-text">How do you respond to strict rules?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="rules" id="ru1" value="thrive"><label for="ru1"><span class="opt-text"><strong>Thrive on them</strong><span>Clear rules keep me on track</span></span></label></div>
+          <div class="opt"><input type="radio" name="rules" id="ru2" value="neutral" checked><label for="ru2"><span class="opt-text"><strong>Neutral</strong><span>Can do either</span></span></label></div>
+          <div class="opt"><input type="radio" name="rules" id="ru3" value="rebel"><label for="ru3"><span class="opt-text"><strong>Rebel against them</strong><span>Restrictions make me break them</span></span></label></div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-text">What's your timeline?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="timeline" id="tl1" value="short"><label for="tl1"><span class="opt-text"><strong>4–8 weeks</strong><span>Holiday or event coming up</span></span></label></div>
+          <div class="opt"><input type="radio" name="timeline" id="tl2" value="medium" checked><label for="tl2"><span class="opt-text"><strong>3–6 months</strong><span>Summer goal</span></span></label></div>
+          <div class="opt"><input type="radio" name="timeline" id="tl3" value="long"><label for="tl3"><span class="opt-text"><strong>6 months+</strong><span>Long-term lifestyle change</span></span></label></div>
+        </div>
+      </div>
+      <div class="question">
+        <div class="question-text">How do you feel about tracking calories?</div>
+        <div class="options-grid three">
+          <div class="opt"><input type="radio" name="tracking" id="tk1" value="love"><label for="tk1"><span class="opt-text"><strong>I enjoy it</strong><span>Like knowing exact numbers</span></span></label></div>
+          <div class="opt"><input type="radio" name="tracking" id="tk2" value="ok" checked><label for="tk2"><span class="opt-text"><strong>It's okay</strong><span>Will track if needed</span></span></label></div>
+          <div class="opt"><input type="radio" name="tracking" id="tk3" value="hate"><label for="tk3"><span class="opt-text"><strong>Hate it</strong><span>Prefer no numbers</span></span></label></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;align-items:center;">
+      <button class="btn-secondary" onclick="goToSection(1)">← Back</button>
+      <button class="btn-primary" onclick="calculate()" style="flex:1;margin-top:0;">Show my strategies →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section" id="section-3">
+    <div class="section-header">
+      <div class="section-eyebrow">Your Results</div>
+      <h2>Your top <em>fat loss strategies</em>,<br>ranked for you</h2>
+      <p id="results-intro"></p>
+    </div>
+    <div class="tdee-hero">
+      <div>
+        <div class="tdee-label">Your maintenance calories (TDEE)</div>
+        <div class="tdee-number" id="res-tdee">—</div>
+        <div class="tdee-unit">calories to maintain current weight</div>
+      </div>
+      <div class="tdee-right">
+        <div class="tdee-label">BMR</div>
+        <div class="tdee-bmi" id="res-bmr">—</div>
+        <div class="tdee-unit">base metabolic rate</div>
+      </div>
+    </div>
+    <div id="strategies-container"></div>
+    <div class="card" style="animation-delay:0.3s;">
+      <div class="card-label">Universal principles — whichever strategy you choose</div>
+      <div id="universal-tips"></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:8px;">
+      <button class="btn-secondary" onclick="goToSection(2)">← Adjust answers</button>
+    </div>
+    <div class="disclaimer">For informational and educational purposes only. Calorie estimates use the Mifflin-St Jeor formula. Consult a healthcare provider before making significant dietary changes. Extended fasting strategies are not suitable for everyone — particularly those with a history of disordered eating, blood sugar conditions, or high stress.</div>
+  </div>
+
+</div>
+
+<script>
+function toggleWeight(){const u=document.getElementById('weight-unit').value;document.getElementById('w-kg').style.display=u==='kg'?'':'none';document.getElementById('w-lbs').style.display=u==='lbs'?'':'none';document.getElementById('w-st').style.display=u==='st'?'':'none';document.getElementById('w-stlbs').style.display=u==='st'?'':'none';}
+function toggleHeight(){const u=document.getElementById('height-unit').value;document.getElementById('h-cm').style.display=u==='cm'?'':'none';document.getElementById('h-ft').style.display=u==='ft'?'':'none';document.getElementById('h-in').style.display=u==='ft'?'':'none';}
+function getWeightKg(){const u=document.getElementById('weight-unit').value;if(u==='kg')return parseFloat(document.getElementById('weight-kg').value);if(u==='lbs')return parseFloat(document.getElementById('weight-lbs').value)*0.4536;const st=parseFloat(document.getElementById('weight-st').value)||0;const lb=parseFloat(document.getElementById('weight-stlbs').value)||0;return(st*14+lb)*0.4536;}
+function getHeightCm(){const u=document.getElementById('height-unit').value;if(u==='cm')return parseFloat(document.getElementById('height-cm').value);const ft=parseFloat(document.getElementById('height-ft').value)||0;const inc=parseFloat(document.getElementById('height-in').value)||0;return(ft*12+inc)*2.54;}
+function goToSection(n){if(n===2){const age=parseFloat(document.getElementById('age').value);const wkg=getWeightKg();const hcm=getHeightCm();if(!age||!wkg||!hcm||isNaN(age)||isNaN(wkg)||isNaN(hcm)){alert('Please fill in your age, height and weight first.');return;}}document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('section-'+n).classList.add('active');const pcts={1:0,2:50,3:100};const labels={1:'Step 1 of 3 — Your stats',2:'Step 2 of 3 — Lifestyle',3:'Complete ✓'};document.getElementById('progress-fill').style.width=pcts[n]+'%';document.getElementById('progress-text').textContent=labels[n];document.getElementById('progress-pct').textContent=pcts[n]+'%';window.scrollTo({top:0,behavior:'smooth'});}
+
+const STRATEGIES=[
+{key:'steadyCut',name:'Steady Daily Deficit',tag:'Most sustainable',emoji:'📉',caution:null,
+desc:'A consistent 300–400 calorie daily deficit, every day. No phases, no cycling — just a reliable gap that creates 0.3–0.4kg of fat loss per week. The most studied and most broadly applicable approach in the literature.',
+sched:(t)=>[{period:'Every day',cals:t-350,label:'kcal/day'},{period:'Weekly deficit',cals:350*7,label:'kcal/week'}],
+why:'Consistency wins over complexity. A moderate deficit keeps hunger manageable, makes social situations easy to navigate, and avoids the psychological rebound that aggressive approaches cause. The evidence from Sigma Nutrition and others consistently shows adherence is the primary variable — and steady deficits have the best long-term adherence.',
+score:(q)=>{let s=55;if(q.cravings==='intense')s+=15;if(q.social==='high')s+=10;if(q.rules==='rebel')s+=15;if(q.failReason==='all-or-nothing')s+=15;if(q.timeline==='long')s+=10;if(q.energy==='low')s+=10;if(q.sleep==='poor')s+=10;if(q.plateau==='yes')s-=15;if(q.weekends==='yes')s-=10;return Math.min(s,97);}},
+
+{key:'minEffectiveDose',name:'Minimum Effective Dose',tag:'Maximum muscle retention',emoji:'🎯',caution:null,
+desc:'The smallest calorie deficit that still produces measurable fat loss — typically 200–250 calories below TDEE. Slower progress on the scale, but superior muscle retention, better training performance, and dramatically better hormonal and metabolic health. The Sigma Nutrition principle: do less than you think you need, consistently.',
+sched:(t)=>[{period:'Every day',cals:t-225,label:'kcal/day'},{period:'Expected loss',cals:null,label:'~0.2kg/week'}],
+why:'Most people over-restrict and lose significant muscle alongside fat, which slows their metabolism and makes weight regain almost inevitable. A minimum effective deficit preserves muscle, keeps hunger genuinely low, and produces a body composition change that actually lasts. If you want to look better rather than just weigh less, this is the approach.',
+score:(q)=>{let s=40;if(q.trains==='yes')s+=20;if(q.goalAmount==='small')s+=20;if(q.timeline==='long')s+=15;if(q.failReason==='hunger')s+=15;if(q.plateau==='yes')s+=10;if(q.cravings==='mild')s+=10;if(q.goalAmount==='significant')s-=15;if(q.timeline==='short')s-=10;return Math.min(s,97);}},
+
+{key:'phasesCut',name:'Cut & Maintain Phases',tag:'Best for metabolism',emoji:'🔄',caution:null,
+desc:'Alternate between aggressive deficit phases (2 weeks at 500–700 below TDEE) and full maintenance phases (1–2 weeks eating at TDEE). Based on Layne Norton\'s MATADOR study research showing this approach outperforms continuous restriction over 16 weeks for both fat loss and muscle retention.',
+sched:(t)=>[{period:'Cut phase (2 wks)',cals:t-600,label:'kcal/day'},{period:'Break phase (1–2 wks)',cals:t,label:'kcal/day (TDEE)'}],
+why:'Continuous restriction causes metabolic adaptation — your body adjusts its calorie burn downward. Full diet breaks partially reset leptin, thyroid hormones, and testosterone, reversing this adaptation. The maintenance phases also make the cut phases feel finite and achievable rather than endless — which is where most diets actually fail.',
+score:(q)=>{let s=45;if(q.rules==='thrive')s+=20;if(q.timeline==='medium'||q.timeline==='short')s+=15;if(q.goalAmount==='moderate'||q.goalAmount==='significant')s+=10;if(q.energy==='crashes')s+=10;if(q.failReason==='hunger')s+=10;if(q.plateau==='yes')s+=15;if(q.social==='low')s+=10;if(q.weekends==='yes')s-=10;return Math.min(s,97);}},
+
+{key:'weekdayWeekend',name:'Weekday Cut, Weekend Flex',tag:'Best for social lives',emoji:'🗓️',caution:null,
+desc:'Eat in a meaningful deficit Monday to Thursday, then eat at or near maintenance Friday to Sunday. Your full weekly deficit is created in 4 days, giving you genuine flexibility for social events, meals out and drinks — without guilt or compensatory restriction.',
+sched:(t)=>[{period:'Mon–Thu',cals:Math.round(t-650),label:'kcal/day'},{period:'Fri–Sun',cals:Math.round(t-50),label:'kcal/day'}],
+why:'Instead of fighting your social life, you plan around it. Martin MacDonald frequently recommends this for clients whose biggest compliance challenge is social eating — remove the friction and you remove the failure point. The psychological relief of unrestricted weekends makes the weekday deficit feel manageable rather than punishing.',
+score:(q)=>{let s=40;if(q.social==='high')s+=25;if(q.weekends==='yes')s+=20;if(q.failReason==='social')s+=25;if(q.rules==='neutral'||q.rules==='rebel')s+=10;if(q.timeline==='medium'||q.timeline==='long')s+=5;if(q.goalAmount==='small')s+=10;if(q.sleep==='poor')s-=5;if(q.energy==='low')s-=5;return Math.min(s,97);}},
+
+{key:'if1816',name:'Intermittent Fasting 16:8',tag:'Best for late eaters',emoji:'⏱️',caution:null,
+desc:'All daily calories eaten within an 8-hour window (e.g. 12pm–8pm), fasting for 16 hours. No calorie counting needed for most people — the restricted eating window naturally reduces intake. Most effective for people who aren\'t naturally hungry in the mornings.',
+sched:(t)=>[{period:'Eating window',cals:Math.round(t*0.82),label:'kcal target'},{period:'Fasting',cals:16,label:'hours/day'}],
+why:'If you\'re not hungry in the morning, skipping breakfast isn\'t deprivation — it\'s just timing. Condensing meals significantly reduces food decision fatigue and creates a natural calorie gap without constant tracking. High protein within the eating window is essential to preserve muscle during the fasting period.',
+score:(q)=>{let s=35;if(q.breakfast==='skip'||q.breakfast==='late')s+=25;if(q.hungerTime==='evening')s+=10;if(q.rules==='thrive')s+=10;if(q.energy==='good')s+=10;if(q.tracking==='hate')s+=15;if(q.fastTolerance==='yes')s+=15;if(q.fastTolerance==='no')s-=20;if(q.hungerTime==='morning')s-=25;if(q.energy==='low')s-=10;if(q.cravings==='intense')s-=10;return Math.min(s,97);}},
+
+{key:'fiveTwoProtocol',name:'5:2 Protocol',tag:'Flexible restriction',emoji:'5️⃣',caution:null,
+desc:'Eat normally for 5 days, then eat around 500–600 calories on 2 non-consecutive days (e.g. Monday and Thursday). Creates a meaningful weekly deficit while keeping 5 full days completely unrestricted. Martin MacDonald regularly references this for clients who find daily restriction harder than occasional, planned restriction.',
+sched:(t)=>[{period:'5 normal days',cals:t,label:'kcal/day'},{period:'2 low days',cals:500,label:'kcal/day'},{period:'Weekly deficit',cals:Math.round((t-500)*2),label:'kcal/week'}],
+why:'The majority of your week is completely unrestricted — no tracking, no rules, no decisions. The 2 low days are finite, knowable, and over quickly. This works particularly well for people who find daily moderation harder than occasional but predictable restriction. The psychological model is different from daily dieting and suits a different mindset.',
+score:(q)=>{let s=35;if(q.fastTolerance==='yes'||q.fastTolerance==='maybe')s+=15;if(q.tracking==='hate')s+=15;if(q.rules==='thrive')s+=15;if(q.social==='moderate'||q.social==='high')s+=10;if(q.failReason==='all-or-nothing')s+=10;if(q.timeline==='medium'||q.timeline==='long')s+=10;if(q.fastTolerance==='no')s-=20;if(q.energy==='low')s-=15;if(q.hungerTime==='morning')s-=5;return Math.min(s,97);}},
+
+{key:'fast36',name:'36-Hour Weekly Fast',tag:'High impact, once a week',emoji:'⚡',caution:'Not suitable if you have a history of disordered eating, blood sugar issues, or are under significant physical or psychological stress.',
+desc:'One 36-hour fast per week (e.g. dinner Sunday through to breakfast Tuesday), eating completely normally on the other 6 days. Creates roughly a full day\'s calorie deficit in a single hit — equivalent to a 400–500 calorie daily deficit — with zero restriction on the other days.',
+sched:(t)=>[{period:'Fast day',cals:0,label:'(water/black coffee only)'},{period:'Other 6 days',cals:Math.round(t),label:'kcal/day (maintenance)'},{period:'Average deficit',cals:Math.round(t/7),label:'kcal/day equivalent'}],
+why:'The appeal is total simplicity — 6 days of completely normal eating, one day of nothing. No calorie counting, no food prep on that day, no decisions. Sigma Nutrition have noted that for certain personality types, the binary nature of fasting (eating vs. not eating) is psychologically far easier than constant moderation. Not for everyone, but transformative for the right person.',
+score:(q)=>{let s=20;if(q.fastTolerance==='yes')s+=30;if(q.tracking==='hate')s+=20;if(q.social==='low')s+=15;if(q.rules==='thrive')s+=15;if(q.cravings==='mild')s+=10;if(q.energy==='good')s+=10;if(q.sleep==='good')s+=5;if(q.fastTolerance==='no')s-=35;if(q.energy==='low')s-=20;if(q.trains==='yes')s-=10;if(q.hungerTime==='morning')s-=10;if(q.sleep==='poor')s-=10;return Math.min(s,93);}},
+
+{key:'omad',name:'OMAD (One Meal A Day)',tag:'Advanced — specific personality type',emoji:'🍽️',caution:'Advanced approach. Only suitable with significant fasting experience and no history of disordered eating, blood sugar instability, or high stress.',
+desc:'Eating all daily calories in a single meal, typically over a 1–2 hour window. Creates a very large natural calorie deficit through timing alone. Suits a very specific personality — people who find multiple food decisions throughout the day harder than one committed, unrestricted meal.',
+sched:(t)=>[{period:'One meal',cals:Math.round(t*0.78),label:'kcal target'},{period:'Fasting window',cals:22,label:'hours/day'}],
+why:'Eliminates almost all food decision fatigue — there is one meal, it is satisfying and unrestricted in food choice, and that\'s it. For the right person, someone with excellent fasting tolerance, stable energy, and no blood sugar issues, this can be surprisingly sustainable. The wrong person will be miserable, irritable, and under-recover from training.',
+score:(q)=>{let s=10;if(q.fastTolerance==='yes')s+=30;if(q.breakfast==='late')s+=20;if(q.cravings==='mild')s+=15;if(q.energy==='good')s+=15;if(q.tracking==='hate')s+=10;if(q.sleep==='good')s+=10;if(q.fastTolerance==='no')s-=30;if(q.energy==='low')s-=20;if(q.hungerTime==='morning')s-=20;if(q.cravings==='intense')s-=15;if(q.sleep==='poor')s-=10;return Math.min(s,90);}},
+
+{key:'calorieCycling',name:'Calorie Cycling',tag:'Best for gym-goers',emoji:'📊',caution:null,
+desc:'Eat fewer calories on rest days (300–500 below TDEE) and more on training days (near TDEE or slightly above). The net weekly deficit is the same as a steady cut, but calories are distributed intelligently to fuel performance and support recovery where it matters most.',
+sched:(t)=>[{period:'Rest days',cals:Math.round(t-450),label:'kcal/day'},{period:'Training days',cals:Math.round(t-50),label:'kcal/day'}],
+why:'Fuelling training days properly means better sessions, better recovery, and significantly more muscle preserved during fat loss. BioLayne\'s research consistently shows that body composition — how much of the weight lost is fat versus muscle — matters more than scale weight for long-term outcomes. This approach optimises composition, not just the number.',
+score:(q)=>{let s=30;if(q.trains==='yes')s+=30;if(q.trains==='sometimes')s+=15;if(q.failReason==='boredom')s+=15;if(q.tracking==='love'||q.tracking==='ok')s+=10;if(q.energy==='crashes')s+=10;if(q.rules==='thrive')s+=10;if(q.cravings==='mild')s+=5;if(q.trains==='no')s-=20;if(q.tracking==='hate')s-=15;if(q.sleep==='poor')s-=5;return Math.min(s,97);}},
+
+{key:'recomp',name:'Protein-First Recomposition',tag:'Build muscle & lose fat simultaneously',emoji:'💪',caution:null,
+desc:'Eat at or very close to maintenance (100–200 calories below), with very high protein (2.0–2.4g per kg bodyweight), and prioritise progressive resistance training. Fat is lost through the thermic effect of protein and the energy demands of muscle building. Scale weight barely moves — body composition changes significantly. Layne Norton\'s most evidence-backed approach for training individuals.',
+sched:(t)=>[{period:'Daily calories',cals:Math.round(t-150),label:'kcal/day'},{period:'Protein',cals:null,label:'2.0–2.4g/kg bodyweight'}],
+why:'If you hate the idea of dieting but want to look fundamentally different, recomposition is the answer. Progress is measured in strength, measurements and photos — not the scale. Works particularly well for beginners to resistance training, people returning after a break, and those who\'ve been chronically under-eating and need to rebuild metabolic capacity.',
+score:(q)=>{let s=30;if(q.trains==='yes'||q.trains==='sometimes')s+=20;if(q.goalAmount==='small')s+=20;if(q.timeline==='long')s+=20;if(q.failReason==='hunger')s+=15;if(q.failReason==='all-or-nothing')s+=10;if(q.rules==='rebel')s+=10;if(q.plateau==='yes')s+=10;if(q.goalAmount==='significant')s-=20;if(q.timeline==='short')s-=20;if(q.trains==='no')s-=15;return Math.min(s,97);}},
+
+{key:'reverseDiet',name:'Reverse Diet First',tag:'For chronic dieters',emoji:'⬆️',caution:'Only relevant if you have been in a prolonged calorie deficit with little to no results. Not a fat loss strategy — it\'s a prerequisite for effective fat loss.',
+desc:'Before cutting, spend 6–12 weeks gradually increasing calories toward your true TDEE. If you\'ve been restricting for months or years, your metabolism may have adapted significantly downward — meaning your actual maintenance is lower than it should be. Reverse dieting rebuilds metabolic rate so that a real cut can actually work.',
+sched:(t)=>[{period:'Weeks 1–4',cals:Math.round(t*0.85),label:'kcal/day'},{period:'Weeks 5–8',cals:Math.round(t*0.92),label:'kcal/day'},{period:'Weeks 9–12',cals:t,label:'kcal/day (TDEE)'}],
+why:'Sigma Nutrition have covered this extensively — chronic under-eating produces adaptive thermogenesis that makes future fat loss progressively harder. If your calculated maintenance appears very low relative to your size, or you\'ve been dieting for a long time with slowing results, eating more before cutting is often the counterintuitive but correct move. It feels wrong. It works.',
+score:(q)=>{let s=10;if(q.plateau==='yes')s+=40;if(q.plateau==='some')s+=15;if(q.energy==='low')s+=20;if(q.failReason==='hunger')s+=15;if(q.timeline==='long')s+=15;if(q.sleep==='poor')s+=10;if(q.plateau==='no')s-=20;if(q.timeline==='short')s-=25;if(q.goalAmount==='significant')s-=10;return Math.min(s,95);}},
+
+{key:'highLowAlt',name:'High-Low Alternating Days',tag:'Varied & flexible',emoji:'〰️',caution:null,
+desc:'Alternate between high calorie days (at or slightly above TDEE) and low calorie days (500–700 below TDEE) every other day. The variation prevents metabolism from fully adapting, stops hunger from compounding over consecutive restricted days, and provides a built-in high day to look forward to every 48 hours.',
+sched:(t)=>[{period:'High days',cals:Math.round(t+50),label:'kcal/day'},{period:'Low days',cals:Math.round(t-600),label:'kcal/day'},{period:'Average deficit',cals:275,label:'kcal/day'}],
+why:'The psychological benefit of knowing a high day is always one day away makes low days dramatically more tolerable. This prevents the "I\'ve been restricting for two weeks and I\'m miserable" wall that causes most diet abandonment. The variation also means weekends and social occasions can be timed to coincide with high days.',
+score:(q)=>{let s=35;if(q.failReason==='boredom')s+=20;if(q.failReason==='all-or-nothing')s+=15;if(q.rules==='neutral')s+=15;if(q.cravings==='moderate')s+=10;if(q.social==='moderate')s+=10;if(q.tracking==='ok'||q.tracking==='love')s+=10;if(q.energy==='variable')s+=10;if(q.tracking==='hate')s-=15;if(q.social==='high')s-=5;return Math.min(s,97);}},
+
+{key:'aggressiveCut',name:'Aggressive Short-Term Cut',tag:'Fast results — time limited',emoji:'🔥',caution:'Maximum 4–6 weeks. Must be paired with very high protein (2.2g/kg minimum) and good sleep to protect muscle. Not sustainable beyond this window.',
+desc:'A significant deficit of 700–900 calories below TDEE for a short, defined period — 4 to 6 weeks maximum. Produces rapid, visible results but requires high protein, quality sleep, and a clear end date. Best used before a specific event. Not a long-term strategy — it is a short, targeted intervention.',
+sched:(t)=>[{period:'Daily target',cals:Math.round(t-800),label:'kcal/day'},{period:'Duration',cals:null,label:'4–6 weeks max'},{period:'Min. protein',cals:null,label:'2.2g/kg bodyweight'}],
+why:'Short-term aggressive cuts work when protein is high enough to protect muscle and the timeframe is fixed. BioLayne\'s position, backed by research, is that a defined aggressive phase followed by a maintenance period often produces better long-term body composition than an indefinite moderate deficit — because adherence degrades over time regardless of how sustainable the deficit feels initially.',
+score:(q)=>{let s=25;if(q.timeline==='short')s+=35;if(q.rules==='thrive')s+=15;if(q.goalAmount==='small'||q.goalAmount==='moderate')s+=10;if(q.energy==='good')s+=10;if(q.sleep==='good')s+=10;if(q.cravings==='mild')s+=10;if(q.social==='low')s+=10;if(q.energy==='low')s-=20;if(q.sleep==='poor')s-=20;if(q.cravings==='intense')s-=15;if(q.goalAmount==='significant')s-=10;if(q.timeline==='long')s-=15;return Math.min(s,97);}}
+];
+
+function calculate(){
+  const age=parseFloat(document.getElementById('age').value);
+  const sex=document.getElementById('sex').value;
+  const wkg=getWeightKg(); const hcm=getHeightCm();
+  const activity=parseFloat(document.querySelector('input[name="activity"]:checked').value);
+  if(!age||!wkg||!hcm){alert('Please fill in your stats on step 1.');goToSection(1);return;}
+  showEmailGate('fat-loss-calculator', function(){ runCalculate(age,sex,wkg,hcm,activity); });
+}
+
+function runCalculate(age,sex,wkg,hcm,activity){
+  let bmr;
+  if(sex==='f') bmr=(10*wkg)+(6.25*hcm)-(5*age)-161;
+  else          bmr=(10*wkg)+(6.25*hcm)-(5*age)+5;
+  const tdee=Math.round(bmr*activity);
+  const q={
+    hungerTime:document.querySelector('input[name="hunger-time"]:checked')?.value,
+    cravings:document.querySelector('input[name="cravings"]:checked')?.value,
+    breakfast:document.querySelector('input[name="breakfast"]:checked')?.value,
+    fastTolerance:document.querySelector('input[name="fast-tolerance"]:checked')?.value,
+    energy:document.querySelector('input[name="energy"]:checked')?.value,
+    sleep:document.querySelector('input[name="sleep"]:checked')?.value,
+    plateau:document.querySelector('input[name="plateau"]:checked')?.value,
+    social:document.querySelector('input[name="social"]:checked')?.value,
+    weekends:document.querySelector('input[name="weekends"]:checked')?.value,
+    failReason:document.querySelector('input[name="fail-reason"]:checked')?.value,
+    rules:document.querySelector('input[name="rules"]:checked')?.value,
+    timeline:document.querySelector('input[name="timeline"]:checked')?.value,
+    tracking:document.querySelector('input[name="tracking"]:checked')?.value,
+    goalAmount:document.querySelector('input[name="goal-amount"]:checked')?.value,
+    trains:document.querySelector('input[name="trains"]:checked')?.value,
+    activity:document.querySelector('input[name="activity"]:checked')?.value,
+  };
+  const scored=STRATEGIES.map(s=>({s,score:s.score(q)})).sort((a,b)=>b.score-a.score).slice(0,3);
+  document.getElementById('res-tdee').textContent=tdee.toLocaleString();
+  document.getElementById('res-bmr').textContent=Math.round(bmr).toLocaleString();
+  const intros={hunger:"Your hunger patterns are the central challenge. Every strategy in your top 3 is chosen to keep it manageable without relying on willpower alone.",social:"Your social life is a genuine factor — the strategies below work with it, not against it.",boredom:"Variety and flexibility are non-negotiable for you. These approaches build that in structurally rather than asking you to white-knuckle through monotony.",'all-or-nothing':"Your all-or-nothing pattern is extremely common and very solvable. These strategies are specifically chosen to break the cycle rather than reinforce it."};
+  document.getElementById('results-intro').textContent=intros[q.failReason]||"Based on your physiology, lifestyle and dieting history, here are your best-matched fat loss strategies from a pool of 13.";
+  const container=document.getElementById('strategies-container');
+  container.innerHTML='';
+  const rankLabels=['#1 Best fit','#2 Strong match','#3 Worth considering'];
+  const rankClasses=['rank-1','rank-2','rank-3'];
+  scored.forEach((item,i)=>{
+    const s=item.s;
+    const schedItems=s.sched(tdee);
+    const schedHtml=schedItems.map(b=>{
+      const display=b.cals===null?'—':b.cals===0?'0':b.cals.toLocaleString();
+      return`<div class="sched-block"><div class="sched-period">${b.period}</div><div class="sched-cals">${display}</div><div class="sched-label">${b.label}</div></div>`;
+    }).join('');
+    let extraNote='';
+    if(s.key==='recomp')extraNote=`<div style="background:var(--terracotta-pale);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--text-mid);font-weight:300;"><strong style="color:var(--terracotta);">Your protein target: ${Math.round(wkg*2.2)}g/day</strong> — this is non-negotiable for recomposition. Without adequate protein, this approach produces no meaningful change in body composition.</div>`;
+    if(s.key==='aggressiveCut')extraNote=`<div style="background:var(--terracotta-pale);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--text-mid);font-weight:300;"><strong style="color:var(--terracotta);">Minimum protein: ${Math.round(wkg*2.2)}g/day</strong> — at this level of deficit, inadequate protein means losing significant muscle alongside fat. This is the most critical variable in the entire approach.</div>`;
+    const card=document.createElement('div');
+    card.className=`strategy-card ${rankClasses[i]}`;
+    card.style.animationDelay=(i*0.1)+'s';
+    card.innerHTML=`
+      <div class="rank-badge">${i+1}</div>
+      <div class="strategy-name">${s.emoji} ${s.name}</div>
+      <div class="strategy-tag">${rankLabels[i]}</div>
+      ${s.caution?`<div class="caution-badge">⚠️ ${s.caution}</div>`:''}
+      <div class="match-bar-wrap">
+        <div class="match-label"><span>Strategy match</span><span>${item.score}%</span></div>
+        <div class="match-track"><div class="match-fill" style="width:0%" data-width="${item.score}%"></div></div>
+      </div>
+      <div class="strategy-desc">${s.desc}</div>
+      <div class="calorie-schedule">${schedHtml}</div>
+      ${extraNote}
+      <div class="why-works"><strong>Why this suits you:</strong> ${s.why}</div>`;
+    container.appendChild(card);
+  });
+  setTimeout(()=>{document.querySelectorAll('.match-fill').forEach(el=>{el.style.width=el.dataset.width;});},150);
+  const proteinTarget=Math.round(wkg*1.8);
+  const tips=[];
+  tips.push(`💪 <strong>Protein target: ${proteinTarget}g/day</strong> — non-negotiable regardless of which strategy you use. Protein is the single variable that separates fat loss from weight loss. Every gram below this target increases the proportion of muscle you lose alongside fat.`);
+  if(q.hungerTime==='afternoon'||q.hungerTime==='all-day')tips.push('🕒 <strong>Pre-empt the crash:</strong> Have a protein and fat snack at 2:30pm, before hunger arrives — not after. Reactive eating always loses.');
+  if(q.cravings==='intense')tips.push('🍫 <strong>Flexible dieting, not elimination:</strong> BioLayne\'s research on flexible vs. rigid dietary control consistently shows that banning foods amplifies their psychological power. Include them in small, planned amounts and track them. Rigid restriction produces worse adherence and more binge episodes.');
+  if(q.sleep==='poor')tips.push('😴 <strong>Sleep is a fat loss variable, not a lifestyle bonus:</strong> Under 6 hours measurably elevates ghrelin and cortisol the following day, directly worsening hunger, cravings and adherence. Improving sleep by 30 minutes produces measurable improvements in dietary compliance.');
+  if(q.energy==='low'||q.energy==='crashes')tips.push('⚡ <strong>Energy crashes are almost always blood sugar instability:</strong> Prioritise protein and fat at each meal before carbohydrates. Martin MacDonald consistently points to this as the first intervention for low energy on a deficit — it works before any supplement or stimulant.');
+  if(q.weekends==='yes')tips.push('📅 <strong>Plan the weekend in advance:</strong> Decide specifically which meals will be social and unrestricted. Planned flexibility beats unplanned chaos every time — the research on this is consistent.');
+  if(q.failReason==='all-or-nothing')tips.push('🔄 <strong>One bad meal is data, not failure:</strong> Return to your strategy at the very next meal — not Monday, not tomorrow, the next meal. Sigma Nutrition\'s position is clear: accumulated consistency across weeks and months matters vastly more than individual days.');
+  if(q.plateau==='yes')tips.push('📈 <strong>Recalculate after 4 weeks:</strong> Your TDEE changes as you lose weight. If progress stalls, the first step is always recalculating maintenance — not cutting more. Cutting more on an already-adapted metabolism is the most common mistake in chronic dieters.');
+  if(q.trains==='yes'||q.trains==='sometimes')tips.push('🏋️ <strong>Don\'t reduce training volume when cutting:</strong> This is the most common and most damaging mistake. Reduce food, not training. Muscle preserved during a deficit is the primary driver of long-term metabolic health and aesthetic outcome.');
+  document.getElementById('universal-tips').innerHTML=tips.map(t=>`<div class="tip-row"><div>${t}</div></div>`).join('');
+  goToSection(3);
+  setTimeout(()=>addShareButton(scored[0].s.name), 400);
+}
+
+function showEmailGate(tag,onSuccess){
+  if(sessionStorage.getItem('tnv_email_captured')){onSuccess();return;}
+  const overlay=document.createElement('div');
+  overlay.id='tnv-gate-overlay';
+  overlay.innerHTML=`
+    <div id="tnv-gate-modal">
+      <div id="tnv-gate-icon">🔒</div>
+      <div id="tnv-gate-eyebrow">The Nutrition Vault</div>
+      <h2 id="tnv-gate-title">Your strategies are ready</h2>
+      <p id="tnv-gate-desc">Enter your email to unlock your personalised strategy ranking. We'll also send you a summary so you can come back to it any time.</p>
+      <form id="tnv-gate-form">
+        <input type="text" id="tnv-gate-name" placeholder="First name (optional)" autocomplete="given-name">
+        <input type="email" id="tnv-gate-email" placeholder="your@email.com" required autocomplete="email">
+        <button type="submit" id="tnv-gate-btn">Unlock my results →</button>
+      </form>
+      <p id="tnv-gate-note">🔒 No spam. Free forever. Unsubscribe any time.</p>
+    </div>`;
+  const style=document.createElement('style');
+  style.textContent=`
+    #tnv-gate-overlay{position:fixed;inset:0;z-index:9999;background:rgba(44,33,24,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px;animation:tnvFadeIn 0.3s ease;}
+    #tnv-gate-modal{background:#fff9f4;border-radius:24px;padding:48px 40px;max-width:440px;width:100%;box-shadow:0 24px 80px rgba(44,33,24,0.3);animation:tnvSlideUp 0.35s ease;position:relative;}
+    #tnv-gate-icon{width:56px;height:56px;background:#c8634a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;}
+    #tnv-gate-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#c8634a;text-align:center;margin-bottom:10px;font-family:'DM Sans',sans-serif;}
+    #tnv-gate-title{font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:600;color:#2c2118;text-align:center;margin-bottom:10px;line-height:1.2;}
+    #tnv-gate-desc{font-size:14px;color:#5c4a3a;font-weight:300;line-height:1.6;text-align:center;margin-bottom:24px;font-family:'DM Sans',sans-serif;}
+    #tnv-gate-form{display:flex;flex-direction:column;gap:10px;}
+    #tnv-gate-form input{height:50px;border:1.5px solid #e8ddd4;border-radius:10px;padding:0 16px;font-family:'DM Sans',sans-serif;font-size:15px;color:#2c2118;background:#faf7f2;outline:none;transition:border-color 0.2s;}
+    #tnv-gate-form input:focus{border-color:#c8634a;box-shadow:0 0 0 3px rgba(200,99,74,0.1);}
+    #tnv-gate-form input::placeholder{color:#8c7a6a;opacity:0.7;}
+    #tnv-gate-btn{height:52px;background:#c8634a;color:white;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;box-shadow:0 4px 20px rgba(200,99,74,0.3);margin-top:4px;transition:background 0.2s,transform 0.15s;}
+    #tnv-gate-btn:hover{background:#b5573f;transform:translateY(-1px);}
+    #tnv-gate-btn:disabled{opacity:0.7;cursor:not-allowed;transform:none;}
+    #tnv-gate-note{font-size:12px;color:#8c7a6a;text-align:center;margin-top:14px;font-weight:300;font-family:'DM Sans',sans-serif;}
+    @keyframes tnvFadeIn{from{opacity:0;}to{opacity:1;}}
+    @keyframes tnvSlideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}`;
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+  document.getElementById('tnv-gate-form').addEventListener('submit',async function(e){
+    e.preventDefault();
+    const email=document.getElementById('tnv-gate-email').value;
+    const fname=document.getElementById('tnv-gate-name').value;
+    const btn=document.getElementById('tnv-gate-btn');
+    btn.textContent='Unlocking...';btn.disabled=true;
+    try{await tnvSubscribe(email,fname,tag);}catch(err){}
+    sessionStorage.setItem('tnv_email_captured','1');
+    overlay.remove();
+    onSuccess();
+  });
+}
+
+// Share button rendered after results
+function addShareButton(topStrategy) {
+  const existing = document.getElementById('tnv-share-wrap');
+  if (existing) existing.remove();
+  const wrap = document.createElement('div');
+  wrap.id = 'tnv-share-wrap';
+  wrap.style.cssText = 'margin-top:24px;padding:20px 24px;background:#fff9f4;border:1px solid #e8ddd4;border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;';
+  wrap.innerHTML = `
+    <div>
+      <div style="font-size:13px;font-weight:500;color:#2c2118;margin-bottom:3px;">Know someone who'd find this useful?</div>
+      <div style="font-size:12px;color:#8c7a6a;font-weight:300;">Share The Nutrition Vault — it's completely free for them too</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button onclick="shareResult('copy')" style="height:38px;padding:0 16px;border:1.5px solid #e8ddd4;border-radius:8px;background:#faf7f2;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:#5c4a3a;cursor:pointer;" id="copy-btn">📋 Copy link</button>
+      <button onclick="shareResult('instagram')" style="height:38px;padding:0 16px;border:none;border-radius:8px;background:#c8634a;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:white;cursor:pointer;">📸 Share</button>
+    </div>`;
+  const disclaimer = document.querySelector('.disclaimer');
+  if (disclaimer) disclaimer.before(wrap);
+}
+
+function shareResult(method) {
+  const url = 'https://thenutritonvault.github.io/PCOS-Calculator/strategy-calculator.html';
+  const text = 'Just found my perfect fat loss strategy using this free calculator from @the_nutrition_vault — 13 evidence-based approaches ranked for your actual lifestyle. No supplements, no agenda. Completely free.';
+  if (method === 'copy') {
+    navigator.clipboard.writeText(url).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = '📋 Copy link'; }, 2000);
+    });
+  } else if (method === 'instagram') {
+    navigator.clipboard.writeText(text + ' ' + url).then(() => {
+      alert('Caption copied! Open Instagram and paste into your story or post.\n\n@the_nutrition_vault');
+    });
+  }
+}
+
+async function tnvSubscribe(email,fname,tag){return new Promise((resolve)=>{try{const iframe=document.createElement('iframe');iframe.name='tnv_mc_frame';iframe.style.display='none';document.body.appendChild(iframe);const form=document.createElement('form');
+form.action='https://gmail.us6.list-manage.com/subscribe/post?u=1a36244b4a1c4e4235951d01a&id=572c69ba2f&f_id=000550e3f0';form.method='POST';form.target='tnv_mc_frame';const fields={'EMAIL':email,'FNAME':fname||'','b_1a36244b4a1c4e4235951d01a_572c69ba2f':''};Object.entries(fields).forEach(([name,value])=>{const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;form.appendChild(input);});document.body.appendChild(form);form.submit();setTimeout(()=>{iframe.remove();form.remove();resolve();},2000);}catch(e){resolve();}});}
+</script>
+</body>
+</html>
